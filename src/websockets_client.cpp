@@ -313,7 +313,12 @@ namespace websockets {
         this->_connectionOpen = this->_client->connect(internals::fromInterfaceString(host), port);
         if (!this->_connectionOpen) return false;
 
+        
+
         auto handshake = generateHandshake(internals::fromInterfaceString(host), internals::fromInterfaceString(path), _customHeaders);
+        Serial.println("SEND handshake");
+        Serial.println(handshake.requestStr.c_str());
+        
         this->_client->send(handshake.requestStr);
 
         // This check is needed because of an ESP32 lib bug that wont signal that the connection had
@@ -323,6 +328,9 @@ namespace websockets {
         }
 
         auto head = this->_client->readLine();
+
+        Serial.printf("RECV: %s\n", head.c_str());
+
         if(!doestStartsWith(head, "HTTP/1.1 101")) {
             close(CloseReason_ProtocolError);
             return false;
