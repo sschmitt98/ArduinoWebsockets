@@ -8,13 +8,13 @@
 #include <tiny_websockets/network/generic_esp/generic_esp_clients.hpp>
 
 #include <WiFi.h>
-#include <WiFiClientSecure.h>
+#include <NetworkClientSecure.h>
 #include <HTTPClient.h>
 
 namespace websockets { namespace network {
   typedef GenericEspTcpClient<WiFiClient> Esp32TcpClient;
   
-  class SecuredEsp32TcpClient : public GenericEspTcpClient<WiFiClientSecure> {
+  class SecuredEsp32TcpClient : public GenericEspTcpClient<NetworkClientSecure> {
   public:
     void setInsecure() {
       this->client.setInsecure();
